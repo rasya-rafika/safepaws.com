@@ -98,6 +98,15 @@ footer {
 .btn-primary:hover, .btn-success:hover, .btn-warning:hover {
     opacity: 0.8;
 }
+.btn-danger {
+    background-color: #D32F2F !important; /* Warna merah gelap (cocok untuk logout) */
+    border: none;
+    color: white !important; /* Warna tulisan tetap putih agar kontras */
+    transition: background-color 0.3s ease-in-out;
+}
+
+.btn-danger:hover {
+    background-color: #B71C1C !important; /* Warna merah lebih gelap saat hover */
 
 /* Smooth Scroll */
 html {
@@ -165,16 +174,6 @@ html {
         </div>
     </div>
 </div>
-
-<li class="nav-item">
-    <?php if (isset($_SESSION['user'])): ?>
-        <span class="nav-link">Halo, <?php echo $_SESSION['user']; ?>!</span>
-        <a href="logout.php" class="btn btn-danger ms-2">Logout</a>
-    <?php else: ?>
-        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#authModal">Login/Register</button>
-    <?php endif; ?>
-</li>
-
 
     <!-- HERO SECTION -->
     <header id="hero" class="text-center d-flex align-items-center vh-100">
