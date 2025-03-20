@@ -1,10 +1,10 @@
 <?php
-$host = "localhost";
-$user = "root"; // Default XAMPP user
-$password = "";
-$database = "safepaws_db";
+$host = "localhost"; // Sesuaikan jika menggunakan server lain
+$user = "root"; // Biasanya "root" untuk localhost
+$pass = ""; // Kosongkan jika tidak ada password
+$db = "safepaws_db"; // Nama database
 
-$conn = new mysqli($host, $user, $password, $database);
+$conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
     die("Koneksi gagal: " . $conn->connect_error);
 } else {

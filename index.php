@@ -166,6 +166,16 @@ html {
     </div>
 </div>
 
+<li class="nav-item">
+    <?php if (isset($_SESSION['user'])): ?>
+        <span class="nav-link">Halo, <?php echo $_SESSION['user']; ?>!</span>
+        <a href="logout.php" class="btn btn-danger ms-2">Logout</a>
+    <?php else: ?>
+        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#authModal">Login/Register</button>
+    <?php endif; ?>
+</li>
+
+
     <!-- HERO SECTION -->
     <header id="hero" class="text-center d-flex align-items-center vh-100">
         <div class="container">
