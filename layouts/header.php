@@ -41,7 +41,25 @@ session_start();
             text-align: center;
             margin-top: 50px;
         }
+        /* Pastikan tab login & register memiliki warna teks yang terlihat */
+.nav-tabs .nav-link {
+    color: black !important; /* Warna teks hitam agar selalu terlihat */
+    font-weight: bold;
+}
+
+/* Warna tab aktif */
+.nav-tabs .nav-link.active {
+    color: white !important;  /* Saat aktif, warna teks jadi putih */
+    background-color: #008080 !important; /* Warna TEAL agar kontras */
+}
+
+/* Saat hover */
+.nav-tabs .nav-link:hover {
+    color:rgba(38, 50, 39, 0.91) !important; /* Warna kuning saat hover */
+}
+
     </style>
+    
 </head>
 <body>
 
