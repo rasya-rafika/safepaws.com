@@ -95,6 +95,7 @@ footer {
     border: none;
     color: white !important; /* Ubah warna tulisan jadi putih */
 }
+
 .btn-primary:hover, .btn-success:hover, .btn-warning:hover {
     opacity: 0.8;
 }
@@ -107,7 +108,7 @@ footer {
 
 .btn-danger:hover {
     background-color: #B71C1C !important; /* Warna merah lebih gelap saat hover */
-
+}
 /* Smooth Scroll */
 html {
     scroll-behavior: smooth;
@@ -175,6 +176,8 @@ html {
     </div>
 </div>
 
+
+
     <!-- HERO SECTION -->
     <header id="hero" class="text-center d-flex align-items-center vh-100">
         <div class="container">
@@ -195,13 +198,12 @@ html {
     </section>
 
     <!-- DOKTER -->
-    <section id="dokter" class="text-center">
-        <div class="container">
-            <h2>Dokter Hewan</h2>
-            <p>Kami menyediakan layanan untuk mencari dokter hewan terbaik di sekitar Anda.</p>
-            <a href="dokter.php" class="btn btn-primary">Lihat Dokter</a>
-        </div>
-    </section>
+        <section id="dokter" class="text-center">
+            <div class="container">
+                <h2>Dokter Hewan</h2>
+                <p>Kami menyediakan layanan untuk mencari dokter hewan terbaik di sekitar Anda.</p>
+                <a href="dokter.php" class="btn btn-primary">Lihat Dokter</a>
+        </section>
 
     <!-- SHELTER -->
     <section id="shelter" class="bg-light text-center">
