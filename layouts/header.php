@@ -12,11 +12,36 @@ session_start();
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- SweetAlert2 CSS (Optional, buat notifikasi logout) -->
+    <!-- SweetAlert2 CSS (Optional) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-    <!-- Custom Style -->
-    <link rel="stylesheet" href="assets/style.css">
+    <!-- Inline Style -->
+    <style>
+        body {
+            padding-top: 70px;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #008080 !important; /* TEAL */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .nav-link {
+            color: #fff !important;
+        }
+        .nav-link:hover {
+            color: #ffc107 !important;
+        }
+        footer {
+            background-color: #004d4d; 
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
 
@@ -29,44 +54,39 @@ session_start();
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#tentang">Tentang</a></li>
-        <li class="nav-item"><a class="nav-link" href="#dokter">Dokter</a></li>
-        <li class="nav-item"><a class="nav-link" href="#shelter">Shelter</a></li>
-        <li class="nav-item"><a class="nav-link" href="#komunitas">Komunitas</a></li>
-        <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.php#tentang">Tentang</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.php#dokter">Dokter</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.php#shelter">Shelter</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.php#komunitas">Komunitas</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.php#kontak">Kontak</a></li>
 
-        <!-- Cek apakah user sudah login -->
-        <?php if (isset($_SESSION['user'])): ?>
-            <li class="nav-item">
-                <span class="nav-link">Halo, <?php echo $_SESSION['user']; ?>!</span>
-            </li>
-            <li class="nav-item">
-                <!-- Logout pakai link supaya sejajar -->
-                <a class="nav-link btn btn-danger text-danger" href="#" data-bs-toggle="modal" data-bs-target="#logoutConfirmModal">Logout</a>
-            </li>
-        <?php else: ?>
-            <li class="nav-item">
-                <!-- Tombol Login/Register -->
-                <a class="nav-link btn btn-warning text-dark px-3" href="#" data-bs-toggle="modal" data-bs-target="#authModal">Login/Register</a>
-            </li>
-        <?php endif; ?>
-    </ul>
-</div>
-
+                <?php if (isset($_SESSION['user'])): ?>
+                    <li class="nav-item">
+                        <span class="nav-link">Halo, <?= $_SESSION['user']; ?>!</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-danger btn-sm ms-2 px-3" href="#" data-bs-toggle="modal" data-bs-target="#logoutConfirmModal">Logout</a>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-warning btn-sm ms-2 px-3 text-dark" href="#" data-bs-toggle="modal" data-bs-target="#authModal">Login/Register</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
     </div>
 </nav>
 
-<!-- MODAL LOGIN/REGISTER (Kalau mau taruh di header.php juga) -->
+<!-- MODAL LOGIN/REGISTER -->
 <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="authModalLabel">Masuk atau Daftar</h5>
+                <h5 class="modal-title">Masuk atau Daftar</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <div class="modal-body">
-                <!-- Tab Navigation -->
                 <ul class="nav nav-tabs" id="authTabs">
                     <li class="nav-item">
                         <a class="nav-link active" id="login-tab" data-bs-toggle="tab" href="#loginForm">Login</a>
@@ -76,36 +96,33 @@ session_start();
                     </li>
                 </ul>
 
-                <!-- Tab Content -->
                 <div class="tab-content mt-3">
-                    <!-- Form Login -->
                     <div class="tab-pane fade show active" id="loginForm">
                         <form method="POST" action="login.php">
                             <div class="mb-3">
-                                <label for="username" class="form-label">Username</label>
+                                <label class="form-label">Username</label>
                                 <input type="text" class="form-control" name="username" required>
                             </div>
                             <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
+                                <label class="form-label">Password</label>
                                 <input type="password" class="form-control" name="password" required>
                             </div>
                             <button type="submit" name="login" class="btn btn-primary w-100">Login</button>
                         </form>
                     </div>
 
-                    <!-- Form Register -->
                     <div class="tab-pane fade" id="registerForm">
                         <form method="POST" action="register.php">
                             <div class="mb-3">
-                                <label for="username" class="form-label">Username</label>
+                                <label class="form-label">Username</label>
                                 <input type="text" class="form-control" name="username" required>
                             </div>
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
+                                <label class="form-label">Email</label>
                                 <input type="email" class="form-control" name="email" required>
                             </div>
                             <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
+                                <label class="form-label">Password</label>
                                 <input type="password" class="form-control" name="password" required>
                             </div>
                             <button type="submit" name="register" class="btn btn-success w-100">Register</button>
@@ -117,12 +134,12 @@ session_start();
     </div>
 </div>
 
-<!-- MODAL KONFIRMASI LOGOUT -->
+<!-- MODAL LOGOUT -->
 <div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-labelledby="logoutConfirmModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-warning text-dark">
-                <h5 class="modal-title" id="logoutConfirmModalLabel">Konfirmasi Logout</h5>
+                <h5 class="modal-title">Konfirmasi Logout</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <div class="modal-body">
@@ -142,7 +159,6 @@ session_start();
 <!-- SweetAlert2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- SweetAlert Logout Notifikasi -->
 <script>
     <?php if (isset($_GET['logout']) && $_GET['logout'] == 'success'): ?>
         Swal.fire({
