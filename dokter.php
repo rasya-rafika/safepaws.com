@@ -138,8 +138,6 @@ if (!$conn) {
 
 </div>
 
-<?php include 'layouts/footer.php'; ?>
-
 <!-- Include Bootstrap JS (kalau belum ada di footer.php) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Tambahkan Chart.js -->
@@ -147,6 +145,3 @@ if (!$conn) {
 <!-- Tambahkan Script Chart Dokter -->
 <script src="js/chartdokter.js"></script>
 <?php include 'layouts/footer.php'; ?>
-
-<!-- Include Bootstrap JS (kalau belum ada di footer.php) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
