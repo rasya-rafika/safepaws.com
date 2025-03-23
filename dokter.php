@@ -118,7 +118,34 @@ if (!$conn) {
         ?>
     </div>
 </div>
+<!-- Tombol Lihat Grafik -->
+<div class="text-center mt-4">
+      <button id="btnLihatGrafik" class="btn btn-primary">Lihat Grafik</button>
+    </div>
 
+    <!-- Container Grafik (Awalnya Disembunyikan) -->
+    <div id="chartContainer" class="mt-4" style="display: none;">
+      <h2 class="text-center">Statistik Dokter</h2>
+      <p class="text-center">Lihat grafik pengalaman dan rating dokter.</p>
+      <canvas id="chartDokter"></canvas> <!-- Tempat menampilkan grafik -->
+
+    <!-- Tombol Tutup Grafik -->
+    <div class="text-center mt-3">
+        <button id="btnTutupGrafik" class="btn btn-danger">Tutup Grafik</button>
+    </div>
+  
+  </div>
+
+</div>
+
+<?php include 'layouts/footer.php'; ?>
+
+<!-- Include Bootstrap JS (kalau belum ada di footer.php) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Tambahkan Chart.js -->
+<script src="js/chart.js"></script>
+<!-- Tambahkan Script Chart Dokter -->
+<script src="js/chartdokter.js"></script>
 <?php include 'layouts/footer.php'; ?>
 
 <!-- Include Bootstrap JS (kalau belum ada di footer.php) -->
