@@ -1,72 +1,83 @@
 <?php
+session_start();
 include 'koneksi.php';
 
-// CREATE
-if (isset($_POST['tambah'])) {
-    $nama_hewan = $_POST['nama_hewan'];
-    $umur = $_POST['umur'];
-    $deskripsi = $_POST['deskripsi'];
-    $lokasi_shelter = $_POST['lokasi_shelter'];
+// Cek apakah user sudah login
+if (!isset($_SESSION['user_id'])) {
+    echo "<script>alert('Silakan login terlebih dahulu!'); window.location.href='login.php';</script>";
+    exit;
+}
 
-    $stmt = $conn->prepare("INSERT INTO shelter (nama_hewan, umur, deskripsi, lokasi_shelter) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("siss", $nama_hewan, $umur, $deskripsi, $lokasi_shelter);
+if (isset($_POST['tambah'])) {
+    $nama = $_POST['nama'];
+    $umur = $_POST['usia'];
+    $jenis_kelamin = $_POST['jenis_kelamin'];
+    $kategori = $_POST['kategori'];
+    $deskripsi = $_POST['deskripsi'];
+    $user_id = $_SESSION['user_id'];
+
+    // Upload foto
+    $foto_name = $_FILES['foto']['name'];
+    $foto_tmp = $_FILES['foto']['tmp_name'];
+    move_uploaded_file($foto_tmp, "uploads/$foto_name");
+
+    // Simpan data ke database
+    $stmt = $conn->prepare("INSERT INTO adopsi (nama, usia, jenis_kelamin, kategori, deskripsi, foto, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sissssi", $nama, $umur, $jenis_kelamin, $kategori, $deskripsi, $foto_name, $user_id);
     $stmt->execute();
     $stmt->close();
-    header("Location: shelter.php");
-    exit();
+
+    header("Location: adopsi.php");
+    exit;
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <title>Tambah Hewan</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-        }
-        .container {
-            width: 40%;
-            margin: 50px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        button {
-            padding: 10px 15px;
-            border: none;
-            background: teal;
-            color: white;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background: #006666;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>Tambah Hewan Adopsi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <h2>Tambah Hewan ke Shelter</h2>
-        <form method="POST">
-            <input type="text" name="nama_hewan" placeholder="Nama Hewan" required>
-            <input type="number" name="umur" placeholder="Umur Hewan" required>
-            <textarea name="deskripsi" placeholder="Deskripsi Hewan" required></textarea>
-            <input type="text" name="lokasi_shelter" placeholder="Lokasi Shelter" required>
-            <button type="submit" name="tambah">Tambah Hewan</button>
+<body class="bg-light">
+    <div class="container my-5">
+        <h2 class="mb-4">Tambah Hewan untuk Diadopsi</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label">Nama Hewan</label>
+                <input type="text" name="nama" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Umur (bulan)</label>
+                <input type="number" name="usia" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Jenis Kelamin</label>
+                <select name="jenis_kelamin" class="form-select" required>
+                    <option value="">Pilih</option>
+                    <option value="Jantan">Jantan</option>
+                    <option value="Betina">Betina</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Kategori</label>
+                <select name="kategori" class="form-select" required>
+                    <option value="">Pilih</option>
+                    <option value="Kucing">Kucing</option>
+                    <option value="Anjing">Anjing</option>
+                    <option value="Hewan Lain">Hewan Lain</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Deskripsi</label>
+                <textarea name="deskripsi" class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Foto Hewan</label>
+                <input type="file" name="foto" class="form-control" required>
+            </div>
+            <button type="submit" name="tambah" class="btn btn-primary">Simpan</button>
         </form>
-        <br>
-        <a href="shelter.php"><button>Kembali</button></a>
     </div>
 </body>
 </html>

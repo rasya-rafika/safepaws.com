@@ -41,25 +41,20 @@ session_start();
             text-align: center;
             margin-top: 50px;
         }
-        /* Pastikan tab login & register memiliki warna teks yang terlihat */
-.nav-tabs .nav-link {
-    color: black !important; /* Warna teks hitam agar selalu terlihat */
-    font-weight: bold;
-}
 
-/* Warna tab aktif */
-.nav-tabs .nav-link.active {
-    color: white !important;  /* Saat aktif, warna teks jadi putih */
-    background-color: #008080 !important; /* Warna TEAL agar kontras */
-}
-
-/* Saat hover */
-.nav-tabs .nav-link:hover {
-    color:rgba(38, 50, 39, 0.91) !important; /* Warna kuning saat hover */
-}
-
+        /* Tab login & register */
+        .nav-tabs .nav-link {
+            color: black !important; 
+            font-weight: bold;
+        }
+        .nav-tabs .nav-link.active {
+            color: white !important;
+            background-color: #008080 !important;
+        }
+        .nav-tabs .nav-link:hover {
+            color: rgba(38, 50, 39, 0.91) !important;
+        }
     </style>
-    
 </head>
 <body>
 
@@ -75,13 +70,13 @@ session_start();
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="index.php#tentang">Tentang</a></li>
                 <li class="nav-item"><a class="nav-link" href="index.php#dokter">Dokter</a></li>
-                <li class="nav-item"><a class="nav-link" href="index.php#shelter">Shelter</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.php#adopsi">Adopsi</a></li>
                 <li class="nav-item"><a class="nav-link" href="index.php#komunitas">Komunitas</a></li>
                 <li class="nav-item"><a class="nav-link" href="index.php#kontak">Kontak</a></li>
 
-                <?php if (isset($_SESSION['user'])): ?>
+                <?php if (isset($_SESSION['username'])): ?>
                     <li class="nav-item">
-                        <span class="nav-link">Halo, <?= $_SESSION['user']; ?>!</span>
+                        <span class="nav-link">Halo, <?= $_SESSION['username']; ?>!</span>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn btn-danger btn-sm ms-2 px-3" href="#" data-bs-toggle="modal" data-bs-target="#logoutConfirmModal">Logout</a>

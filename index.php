@@ -184,7 +184,7 @@ html {
             <h1>Selamat Datang di SafePaws+</h1>
             <p>Platform konsultasi dokter hewan dan adopsi hewan peliharaan</p>
             <a href="#dokter" class="btn btn-primary">Cari Dokter</a>
-            <a href="#shelter" class="btn btn-success">Adopsi Hewan</a>
+            <a href="#adopsi" class="btn btn-success">Adopsi Hewan</a>
         </div>
     </header>
 
@@ -205,12 +205,12 @@ html {
                 <a href="dokter.php" class="btn btn-primary">Lihat Dokter</a>
         </section>
 
-    <!-- SHELTER -->
-    <section id="shelter" class="bg-light text-center">
+    <!-- ADOPSI -->
+    <section id="adopsi" class="bg-light text-center">
         <div class="container">
             <h2>Adopsi Hewan</h2>
             <p>Temukan hewan peliharaan yang menunggu untuk diadopsi.</p>
-            <a href="shelter.php" class="btn btn-success">Lihat Shelter</a>
+            <a href="adopsi.php" class="btn btn-success">Adopsi Hewan</a>
         </div>
     </section>
 
