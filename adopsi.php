@@ -111,7 +111,7 @@ $result = $conn->query("SELECT * FROM adopsi ORDER BY id DESC");
                             </div>
 
                             <div class="text-end mt-auto">
-                                <a href="#" class="btn btn-teal text-white">Adopsi</a>
+                                <a href="formadopsi.php" class="btn btn-teal text-white">Adopsi</a>
                             </div>
                         </div>
                     </div>
