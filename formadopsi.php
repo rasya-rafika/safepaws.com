@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pekerjaan = $_POST['pekerjaan'] === 'Lainnya' && isset($_POST['pekerjaan_lain']) ? $_POST['pekerjaan_lain'] : $_POST['pekerjaan'];
     $tipe_rumah = $_POST['tipe_rumah'];
     $tinggal_dengan = $_POST['tinggal_dengan'];
-    $setuju_adopsi = $_POST['setuju_adopsi'];
+    $setuju_adopsi = isset($_POST['setuju_adopsi']) ? $_POST['setuju_adopsi'] : 'Tidak Berlaku';
     $pernah_merawat = $_POST['pernah_merawat'];
     $jenis_hewan_dulu = $_POST['jenis_hewan_dulu'];
     $alasan_adopsi = $_POST['alasan_adopsi'];
@@ -25,19 +25,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         '$nama', '$alamat', '$no_hp', '$usia', '$pekerjaan', '$tipe_rumah', '$tinggal_dengan', '$setuju_adopsi',
         '$pernah_merawat', '$jenis_hewan_dulu', '$alasan_adopsi', '$cara_merawat', '$komitmen1', '$komitmen2', '$komitmen3'
     )";
-    
 
     if ($conn->query($sql) === TRUE) {
         echo "<script>
-            alert('Form berhasil dikirim! 
-            Terima kasih telah mengajukan permohonan adopsi. Jika pemilik hewan menyetujui permohonan Anda, mereka akan menghubungi Anda lebih lanjut melalui kontak yang telah Anda cantumkan. Mohon tunggu konfirmasi, ya!');
+            alert('Form berhasil dikirim! Terima kasih telah mengajukan permohonan adopsi. Jika pemilik hewan menyetujui permohonan Anda, mereka akan menghubungi Anda lebih lanjut melalui kontak yang telah Anda cantumkan. Mohon tunggu konfirmasi, ya!');
             window.location.href = 'adopsi.php';
         </script>";
-        exit();  // Pastikan eksekusi PHP berhenti setelah pengalihan
+        exit();
     } else {
         echo "Error: " . $conn->error;
     }
-    
 
     $conn->close();
 }
@@ -50,11 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <style>
-    .teal-text { color: #20c997; }
-    .btn-teal { background-color: #20c997; color: white; }
-    .btn-teal:hover { background-color: #17a589; }
+        .teal-text { color: #20c997; }
+        .btn-teal { background-color: #20c997; color: white; }
+        .btn-teal:hover { background-color: #17a589; }
     </style>
-    
+
     <script>
         function toggleLainnya() {
             const pekerjaan = document.getElementById('pekerjaan');
@@ -132,13 +129,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="mb-3">
                     <label class="form-label d-block">Apakah mereka setuju kamu adopsi hewan?</label>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="setuju_adopsi" value="Ya" required>
+                        <input class="form-check-input" type="radio" name="setuju_adopsi" value="Ya">
                         <label class="form-check-label">Ya</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="setuju_adopsi" value="Tidak" required>
+                        <input class="form-check-input" type="radio" name="setuju_adopsi" value="Tidak">
                         <label class="form-check-label">Tidak</label>
                     </div>
+                    <small id="noteSetuju" class="form-text text-muted" style="display: none;">
+                        *Pertanyaan ini hanya berlaku jika kamu tinggal dengan orang lain.
+                    </small>
                 </div>
 
                 <div class="mb-3">
@@ -189,53 +189,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <script>
-                document.querySelector("form").addEventListener("submit", function(e) {
-                    //Validasi pekerjaan "Lainnya"
-                    const pekerjaan = document.getElementById('pekerjaan').value;
-                    const pekerjaanLain = document.querySelector('input[name="pekerjaan_lain"]').value.trim();
-                    if (pekerjaan === 'Lainnya' && pekerjaanLain === '') {
-                        alert('Silakan isi pekerjaan lainnya.');
-                        e.preventDefault();
-                        return;
-                    }
-                    
-                    // Validasi "tinggal_dengan" dan "setuju_adopsi"
-                    const tinggalDengan = document.querySelector('input[name="tinggal_dengan"]:checked');
-                    const setujuAdopsi = document.querySelector('input[name="setuju_adopsi"]:checked');
-                    if (!tinggalDengan) {
-                        alert('Silakan pilih apakah kamu tinggal dengan orang lain.');
-                        e.preventDefault();
-                        return;
-                    }
-                    if (tinggalDengan.value === 'Ya' && !setujuAdopsi) {
-                        alert('Silakan isi apakah orang yang tinggal denganmu setuju atau tidak.');
-                        e.preventDefault();
-                        return;
-                    }
-                    
-                    // Validasi semua checkbox komitmen harus dicentang
-                    const komitmen1 = document.getElementById('komitmen1').checked;
-                    const komitmen2 = document.getElementById('komitmen2').checked;
-                    const komitmen3 = document.getElementById('komitmen3').checked;
-                    if (!(komitmen1 && komitmen2 && komitmen3)) {
-                        alert('Harap centang semua komitmen sebelum mengirim form.');
-                        e.preventDefault();
-                        return;
-                    }
+                    document.querySelector("form").addEventListener("submit", function(e) {
+                        const pekerjaan = document.getElementById('pekerjaan').value;
+                        const pekerjaanLain = document.querySelector('input[name="pekerjaan_lain"]').value.trim();
+                        if (pekerjaan === 'Lainnya' && pekerjaanLain === '') {
+                            alert('Silakan isi pekerjaan lainnya.');
+                            e.preventDefault();
+                            return;
+                        }
+
+                        const tinggalDengan = document.querySelector('input[name="tinggal_dengan"]:checked');
+                        const setujuAdopsi = document.querySelector('input[name="setuju_adopsi"]:checked');
+                        if (!tinggalDengan) {
+                            alert('Silakan pilih apakah kamu tinggal dengan orang lain.');
+                            e.preventDefault();
+                            return;
+                        }
+                        if (tinggalDengan.value === 'Ya' && !setujuAdopsi) {
+                            alert('Silakan isi apakah orang yang tinggal denganmu setuju atau tidak.');
+                            e.preventDefault();
+                            return;
+                        }
+
+                        const komitmen1 = document.getElementById('komitmen1').checked;
+                        const komitmen2 = document.getElementById('komitmen2').checked;
+                        const komitmen3 = document.getElementById('komitmen3').checked;
+                        if (!(komitmen1 && komitmen2 && komitmen3)) {
+                            alert('Harap centang semua komitmen sebelum mengirim form.');
+                            e.preventDefault();
+                            return;
+                        }
                     });
 
                     const tinggalRadios = document.querySelectorAll('input[name="tinggal_dengan"]');
                     const setujuInputs = document.querySelectorAll('input[name="setuju_adopsi"]');
                     tinggalRadios.forEach(radio => {
                         radio.addEventListener('change', function() {
-                            if (this.value === 'Tidak') {
-                                setujuInputs.forEach(input => {
-                                    input.checked = false;
-                                    input.disabled = true;
-                                });
-                            } else {
-                                setujuInputs.forEach(input => input.disabled = false);
-                            }
+                            const show = this.value === 'Ya';
+                            setujuInputs.forEach(input => {
+                                input.disabled = !show;
+                                if (!show) input.checked = false;
+                            });
+                            document.getElementById("noteSetuju").style.display = show ? 'block' : 'none';
                         });
                     });
                 </script>

@@ -59,6 +59,11 @@ $result = $conn->query("SELECT * FROM adopsi ORDER BY id DESC");
     </style>
 </head>
 <body>
+<?php if (isset($_GET['status']) && $_GET['status'] == 'success'): ?>
+    <script>
+        alert("Form berhasil dikirim! Terima kasih telah mengajukan permohonan adopsi. Jika pemilik hewan menyetujui permohonan Anda, mereka akan menghubungi Anda.");
+    </script>
+<?php endif; ?>
 
 <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
