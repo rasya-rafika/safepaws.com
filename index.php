@@ -57,7 +57,7 @@
     background-color: #80CBC4; /* Medium Teal */
 }
 
-#komunitas {
+#artikel {
     background: linear-gradient(120deg, #004D4D, #008080); /* Dark Gradient */
     color: white;
 }
@@ -214,12 +214,12 @@ html {
         </div>
     </section>
 
-        <!-- KOMUNITAS -->
-    <section id="komunitas" class="text-center">
+        <!-- ARTIKEL -->
+    <section id="artikel" class="text-center">
         <div class="container">
-            <h2>Komunitas</h2>
-            <p>Bergabung dengan komunitas pecinta hewan dan berbagi pengalaman.</p>
-            <a href="komunitas.php" class="btn btn-primary">Lihat Komunitas</a>
+            <h2>Artikel</h2>
+            <p>Bergabung dengan Artikel pecinta hewan dan berbagi pengalaman.</p>
+            <a href="artikel.php" class="btn btn-primary">Lihat Artikel</a>
         </div>
     </section>
 

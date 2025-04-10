@@ -71,7 +71,7 @@ session_start();
                 <li class="nav-item"><a class="nav-link" href="index.php#tentang">Tentang</a></li>
                 <li class="nav-item"><a class="nav-link" href="index.php#dokter">Dokter</a></li>
                 <li class="nav-item"><a class="nav-link" href="index.php#adopsi">Adopsi</a></li>
-                <li class="nav-item"><a class="nav-link" href="index.php#komunitas">Komunitas</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.php#artikel">Artikel</a></li>
                 <li class="nav-item"><a class="nav-link" href="index.php#kontak">Kontak</a></li>
 
                 <?php if (isset($_SESSION['username'])): ?>
