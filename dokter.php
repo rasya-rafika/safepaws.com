@@ -31,6 +31,11 @@ if (!$conn) {
         border-color: #d39e00;
         color: #fff;
     }
+    #btnLihatGrafik {
+      display: inline-block;
+      margin: auto;
+    }
+
 </style>
 
 <div class="container mt-5">
@@ -39,30 +44,25 @@ if (!$conn) {
 
     <div class="row">
         <?php
-        // Ambil data dokter dari database
         $query = "SELECT * FROM dokter";
         $result = mysqli_query($conn, $query);
 
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                // Ambil nama file foto dari database
                 $foto = 'asset/' . htmlspecialchars($row['foto']);
         ?>
-
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm h-100">
-                    <img src="<?= $foto ?>" class="card-img-top" alt="Foto Dokter"style="height: 250px; object-fit: contain; background-color: #f8f8f8;">
+                        <img src="<?= $foto ?>" class="card-img-top" alt="Foto Dokter" style="height: 250px; object-fit: contain; background-color: #f8f8f8;">
                         <div class="card-body text-center">
                             <h5 class="card-title"><?= htmlspecialchars($row['nama']) ?></h5>
                             <p class="card-text">Pengalaman: <strong><?= htmlspecialchars($row['pengalaman']) ?></strong> tahun</p>
                             <p class="card-text">Rating: <strong><?= number_format($row['rating'], 1) ?></strong> ⭐</p>
 
                             <div class="d-flex justify-content-between">
-                                <!-- Tombol Buat Buka Modal -->
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ratingModal<?= $row['id_dokter'] ?>">
                                     Beri Rating
                                 </button>
-
                                 <a href="lokasi_dokter.php?id=<?= $row['id_dokter'] ?>" class="btn btn-primary">Lihat Lokasi</a>
                             </div>
                         </div>
@@ -79,16 +79,11 @@ if (!$conn) {
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                         </div>
                         <div class="modal-body">
-                          <!-- Nama Dokter -->
                           <div class="mb-3">
                             <label class="form-label">Nama Dokter</label>
                             <input type="text" class="form-control" value="<?= htmlspecialchars($row['nama']) ?>" readonly>
                           </div>
-
-                          <!-- Input Hidden buat id_dokter -->
                           <input type="hidden" name="id_dokter" value="<?= $row['id_dokter'] ?>">
-
-                          <!-- Pilihan Rating -->
                           <div class="mb-3">
                             <label class="form-label">Pilih Rating (1-5)</label>
                             <select class="form-select" name="rating" required>
@@ -109,7 +104,6 @@ if (!$conn) {
                     </div>
                   </div>
                 </div>
-
         <?php
             }
         } else {
@@ -118,30 +112,66 @@ if (!$conn) {
         ?>
     </div>
 </div>
+
 <!-- Tombol Lihat Grafik -->
-<div class="text-center mt-4">
-      <button id="btnLihatGrafik" class="btn btn-primary">Lihat Grafik</button>
-    </div>
-
-    <!-- Container Grafik (Awalnya Disembunyikan) -->
-    <div id="chartContainer" class="mt-4" style="display: none;">
-      <h2 class="text-center">Statistik Dokter</h2>
-      <p class="text-center">Lihat grafik pengalaman dan rating dokter.</p>
-      <canvas id="chartDokter"></canvas> <!-- Tempat menampilkan grafik -->
-
-    <!-- Tombol Tutup Grafik -->
-    <div class="text-center mt-3">
-        <button id="btnTutupGrafik" class="btn btn-danger">Tutup Grafik</button>
-    </div>
-  
-  </div>
-
+<div id="wrapperBtnGrafik" class="text-center mt-4">
+  <button id="btnLihatGrafik" class="btn btn-primary">Lihat Grafik</button>
 </div>
 
-<!-- Include Bootstrap JS (kalau belum ada di footer.php) -->
+<div id="chartContainer" class="mt-4 container" style="display: none;">
+    <h2 class="text-center">Statistik Dokter</h2>
+    <p class="text-center">Lihat grafik rating dokter</p>
+    <canvas id="chartDokter"></canvas>
+
+    <div class="text-center mt-3">
+        <button id="downloadPdf" class="btn btn-success">Download PDF</button>
+        <button id="btnTutupGrafik" class="btn btn-danger">Tutup Grafik</button>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Tambahkan Chart.js -->
-<script src="js/chart.js"></script>
-<!-- Tambahkan Script Chart Dokter -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="js/chartdokter.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+    const btnLihatGrafik = document.getElementById("btnLihatGrafik");
+    const chartContainer = document.getElementById("chartContainer");
+    const downloadBtn = document.getElementById("downloadPdf");
+    const closeBtn = document.getElementById("btnTutupGrafik");
+
+    btnLihatGrafik.addEventListener("click", function () {
+      chartContainer.style.display = "block";
+    btnLihatGrafik.style.display = "none"; // Sembunyi
+    });
+
+    closeBtn.addEventListener("click", function () {
+      chartContainer.style.display = "none";
+      btnLihatGrafik.style.display = "inline-block"; // Munculin lagi
+    });
+
+
+    downloadBtn.addEventListener("click", function () {
+        downloadBtn.style.display = "none";
+        closeBtn.style.display = "none";
+
+        html2canvas(chartContainer).then(canvas => {
+            const imgData = canvas.toDataURL("image/png");
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            pdf.addImage(imgData, "PNG", 0, 10, pdfWidth, pdfHeight);
+            pdf.save("grafik_dokter.pdf");
+
+            // Tampilkan kembali tombol
+            downloadBtn.style.display = "inline-block";
+            closeBtn.style.display = "inline-block";
+        });
+    });
+</script>
+
+
 <?php include 'layouts/footer.php'; ?>
