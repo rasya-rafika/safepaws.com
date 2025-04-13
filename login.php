@@ -17,7 +17,7 @@ if (isset($_POST['login'])) {
 
         // Verifikasi password
         if (password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['user_id']; // Simpan ID user
+            $_SESSION['user_id'] = $user['user_id']; // Simpan ID user yang foreign key sama tabel adopsi
             $_SESSION['username'] = $user['username']; // Simpan username
 
             echo "<script>alert('Login berhasil!'); window.location.href='index.php';</script>";

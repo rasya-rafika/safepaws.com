@@ -1,7 +1,7 @@
 <?php include 'layouts/header.php'; ?>
 <?php include 'koneksi.php'; 
 
-// Periksa koneksi database
+// cek koneksi database
 if (!$conn) {
     die('<div class="alert alert-danger">Koneksi ke database gagal: ' . mysqli_connect_error() . '</div>');
 }
@@ -52,7 +52,6 @@ if (!$conn) {
                     <option value="Bandung" <?= isset($_GET['lokasi']) && $_GET['lokasi'] == 'Bandung' ? 'selected' : '' ?>>Bandung</option>
                     <option value="Surabaya" <?= isset($_GET['lokasi']) && $_GET['lokasi'] == 'Surabaya' ? 'selected' : '' ?>>Surabaya</option>
                     <option value="Bali" <?= isset($_GET['lokasi']) && $_GET['lokasi'] == 'Bali' ? 'selected' : '' ?>>Bali</option>
-                    <!-- Tambahkan lokasi lainnya sesuai kebutuhan -->
                 </select>
                 <button type="submit" class="btn btn-primary mt-2">Filter</button>
             </form>
@@ -61,10 +60,10 @@ if (!$conn) {
 
     <div class="row">
         <?php
-        // Ambil lokasi yang dipilih dari parameter GET
+        // ini buat ambil  lokasi yang dipilih pake GET
         $lokasiFilter = isset($_GET['lokasi']) ? $_GET['lokasi'] : '';
 
-        // Modifikasi query untuk memfilter berdasarkan lokasi
+        // filter berdasarkan lokasi dalam persen itu nantii keganti sesuai lokasi yang dipilih di filternya
         if ($lokasiFilter) {
             $query = "SELECT * FROM dokter WHERE lokasi LIKE '%$lokasiFilter%'";
         } else {
@@ -77,6 +76,7 @@ if (!$conn) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $foto = 'asset/' . htmlspecialchars($row['foto']);
         ?>
+        <!-- untuk munculin data dokternya -->
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm h-100">
                         <img src="<?= $foto ?>" class="card-img-top" alt="Foto Dokter" style="height: 250px; object-fit: contain; background-color: #f8f8f8;">
@@ -167,12 +167,12 @@ if (!$conn) {
 
     btnLihatGrafik.addEventListener("click", function () {
       chartContainer.style.display = "block";
-    btnLihatGrafik.style.display = "none"; // Sembunyi
+    btnLihatGrafik.style.display = "none"; // Sembunyikan atau tutp grafik
     });
 
     closeBtn.addEventListener("click", function () {
       chartContainer.style.display = "none";
-      btnLihatGrafik.style.display = "inline-block"; // Munculin lagi
+      btnLihatGrafik.style.display = "inline-block"; // untuk munculin lagi
     });
 
 
@@ -190,7 +190,7 @@ if (!$conn) {
             pdf.addImage(imgData, "PNG", 0, 10, pdfWidth, pdfHeight);
             pdf.save("grafik_dokter.pdf");
 
-            // Tampilkan kembali tombol
+            // Tampilkan kembali tombol download nya 
             downloadBtn.style.display = "inline-block";
             closeBtn.style.display = "inline-block";
         });

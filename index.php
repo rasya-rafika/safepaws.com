@@ -29,7 +29,7 @@
     text-align: center;
 }
 
-/* Warna Judul "Selamat Datang" */
+/* Warna Judul  untuk bagean "Selamat Datang" */
 #hero h1 {
     font-size: 2.8rem;
     font-weight: bold;
@@ -93,23 +93,23 @@ footer {
 .btn-warning {
     background-color: #00796B !important; /* Teal */
     border: none;
-    color: white !important; /* Ubah warna tulisan jadi putih */
+    color: white !important; 
 }
 
 .btn-primary:hover, .btn-success:hover, .btn-warning:hover {
     opacity: 0.8;
 }
 .btn-danger {
-    background-color: #D32F2F !important; /* Warna merah gelap (cocok untuk logout) */
+    background-color: #D32F2F !important; /* Warna merah untuk logout */
     border: none;
-    color: white !important; /* Warna tulisan tetap putih agar kontras */
+    color: white !important; 
     transition: background-color 0.3s ease-in-out;
 }
 
 .btn-danger:hover {
     background-color: #B71C1C !important; /* Warna merah lebih gelap saat hover */
 }
-/* Smooth Scroll */
+/* supaya lebih lancar saat scroll*/
 html {
     scroll-behavior: smooth;
 }

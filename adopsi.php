@@ -59,6 +59,7 @@ $result = $conn->query("SELECT * FROM adopsi ORDER BY id DESC");
     </style>
 </head>
 <body>
+
 <?php if (isset($_GET['status']) && $_GET['status'] == 'success'): ?>
     <script>
         alert("Form berhasil dikirim! Terima kasih telah mengajukan permohonan adopsi. Jika pemilik hewan menyetujui permohonan Anda, mereka akan menghubungi Anda.");
@@ -77,18 +78,18 @@ $result = $conn->query("SELECT * FROM adopsi ORDER BY id DESC");
                 <div class="col">
                     <div class="card h-100 shadow-sm border-0 position-relative">
 
-                       
-                    <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $row['user_id']): ?>
-    <div class="dropdown position-absolute top-0 end-0 m-2">
-        <button class="dropdown-toggle custom-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-ellipsis-v"></i>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="editadopsi.php?id=<?= $row['id']; ?>">✏️ Edit</a></li>
-            <li><a class="dropdown-item text-danger" href="hapusadopsi.php?id=<?= $row['id']; ?>" onclick="return confirm('Yakin ingin menghapus?')">🗑️ Hapus</a></li>
-        </ul>
-    </div>
-<?php endif; ?>
+                     <!-- untuk cek sesi login user -->  
+                <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $row['user_id']): ?>
+                <div class="dropdown position-absolute top-0 end-0 m-2">
+                    <button class="dropdown-toggle custom-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="editadopsi.php?id=<?= $row['id']; ?>">✏️ Edit</a></li>
+                        <li><a class="dropdown-item text-danger" href="hapusadopsi.php?id=<?= $row['id']; ?>" onclick="return confirm('Yakin ingin menghapus?')">🗑️ Hapus</a></li>
+                    </ul>
+                </div>
+            <?php endif; ?>
 
 
                         <img src="uploads/<?= htmlspecialchars($row['foto']); ?>" class="card-img-top" alt="Hewan" style="height: 250px; object-fit: cover;">

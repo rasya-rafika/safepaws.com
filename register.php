@@ -5,9 +5,9 @@ include 'koneksi.php'; // Pastikan ada koneksi ke database
 if (isset($_POST['register'])) {
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Enkripsi password
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // buat supaya pass jadi enskripsi 
 
-    // Periksa apakah username atau email sudah terdaftar
+    // Periksa username atau email sudah terdaftar blm
     $checkUser = $conn->prepare("SELECT * FROM users WHERE username=? OR email=?");
     $checkUser->bind_param("ss", $username, $email);
     $checkUser->execute();
