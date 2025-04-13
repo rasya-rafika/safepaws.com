@@ -173,5 +173,5 @@ if (!$conn) {
     });
 </script>
 
-
+<?php include 'layouts/header.php'; ?>
 <?php include 'layouts/footer.php'; ?>
