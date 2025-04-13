@@ -1,6 +1,5 @@
-<?php
-include 'layouts/header.php';
-include 'koneksi.php'; // Koneksi ke database
+<?php include 'layouts/header.php'; ?>
+<?php include 'koneksi.php'; 
 
 // Periksa koneksi database
 if (!$conn) {
@@ -173,5 +172,5 @@ if (!$conn) {
     });
 </script>
 
-<?php include 'layouts/header.php'; ?>
+
 <?php include 'layouts/footer.php'; ?>
