@@ -41,9 +41,36 @@ if (!$conn) {
     <h2 class="text-center mb-4">Daftar Dokter Hewan</h2>
     <p class="text-center">Pilih dokter hewan terbaik di sekitar Anda.</p>
 
+    <!-- Filter Lokasi -->
+    <div class="row mb-4">
+        <div class="col-md-4 offset-md-4">
+            <form method="GET" action="">
+                <label for="lokasi" class="form-label">Pilih Lokasi:</label>
+                <select class="form-select" name="lokasi" id="lokasi">
+                    <option value="">Semua Lokasi</option>
+                    <option value="Jakarta" <?= isset($_GET['lokasi']) && $_GET['lokasi'] == 'Jakarta' ? 'selected' : '' ?>>Jakarta</option>
+                    <option value="Bandung" <?= isset($_GET['lokasi']) && $_GET['lokasi'] == 'Bandung' ? 'selected' : '' ?>>Bandung</option>
+                    <option value="Surabaya" <?= isset($_GET['lokasi']) && $_GET['lokasi'] == 'Surabaya' ? 'selected' : '' ?>>Surabaya</option>
+                    <option value="Bali" <?= isset($_GET['lokasi']) && $_GET['lokasi'] == 'Bali' ? 'selected' : '' ?>>Bali</option>
+                    <!-- Tambahkan lokasi lainnya sesuai kebutuhan -->
+                </select>
+                <button type="submit" class="btn btn-primary mt-2">Filter</button>
+            </form>
+        </div>
+    </div>
+
     <div class="row">
         <?php
-        $query = "SELECT * FROM dokter";
+        // Ambil lokasi yang dipilih dari parameter GET
+        $lokasiFilter = isset($_GET['lokasi']) ? $_GET['lokasi'] : '';
+
+        // Modifikasi query untuk memfilter berdasarkan lokasi
+        if ($lokasiFilter) {
+            $query = "SELECT * FROM dokter WHERE lokasi LIKE '%$lokasiFilter%'";
+        } else {
+            $query = "SELECT * FROM dokter";
+        }
+
         $result = mysqli_query($conn, $query);
 
         if (mysqli_num_rows($result) > 0) {
@@ -57,12 +84,10 @@ if (!$conn) {
                             <h5 class="card-title"><?= htmlspecialchars($row['nama']) ?></h5>
                             <p class="card-text">Pengalaman: <strong><?= htmlspecialchars($row['pengalaman']) ?></strong> tahun</p>
                             <p class="card-text">Rating: <strong><?= number_format($row['rating'], 1) ?></strong> ⭐</p>
-
-                            <div class="d-flex justify-content-between">
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ratingModal<?= $row['id_dokter'] ?>">
-                                    Beri Rating
-                                </button>
-                                <a href="lokasi_dokter.php?id=<?= $row['id_dokter'] ?>" class="btn btn-primary">Lihat Lokasi</a>
+                            <p class="card-text">Lokasi: <strong><?= htmlspecialchars($row['lokasi']) ?></strong></p>
+                        <div class="d-flex justify-content-end">
+                      <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ratingModal<?= $row['id_dokter'] ?>">
+                          Beri Rating
                             </div>
                         </div>
                     </div>
